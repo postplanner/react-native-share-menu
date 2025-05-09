@@ -34,6 +34,8 @@ public class ShareMenuReactView: NSObject {
             return
         }
 
+        ShareMenuReactView.detachViewDelegate()
+
         if error != nil {
             let exception = NSError(
                 domain: Bundle.main.bundleIdentifier!,

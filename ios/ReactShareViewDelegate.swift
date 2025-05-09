@@ -6,7 +6,7 @@
 //
 
 public protocol ReactShareViewDelegate {
-    func loadExtensionContext() -> NSExtensionContext
+    func loadExtensionContext() -> NSExtensionContext?
 
     func openApp()
 
