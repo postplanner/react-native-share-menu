@@ -12,8 +12,8 @@ import RNShareMenu
 class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactShareViewDelegate {
   func sourceURL(for bridge: RCTBridge!) -> URL! {
 #if DEBUG
-    return RCTBundleURLProvider.sharedSettings()?
-      .jsBundleURL(forBundleRoot: "index.share", fallbackResource: nil)
+    return RCTBundleURLProvider.sharedSettings()
+      .jsBundleURL(forBundleRoot: "index.share")
 #else
     return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
 #endif
@@ -54,8 +54,8 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
     ShareMenuReactView.detachViewDelegate()
   }
 
-  func loadExtensionContext() -> NSExtensionContext {
-    return extensionContext!
+  func loadExtensionContext() -> NSExtensionContext? {
+    return extensionContext
   }
 
   func openApp() {

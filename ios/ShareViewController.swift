@@ -255,18 +255,27 @@ class ShareViewController: SLComposeServiceViewController {
     }
     
     let url = URL(string: urlScheme)
-    let selectorOpenURL = sel_registerName("openURL:")
-    var responder: UIResponder? = self
-    
-    while responder != nil {
-      if responder?.responds(to: selectorOpenURL) == true {
-        responder?.perform(selectorOpenURL, with: url)
-      }
-      responder = responder!.next
-    }
+    self.openURL(url!)
     
     completeRequest()
   }
+  
+  
+ @objc
+ @discardableResult
+ func openURL(_ url: URL) -> Bool {
+     var responder: UIResponder? = self
+     while responder != nil {
+         if let application = responder as? UIApplication {
+             Task { @MainActor in
+                 application.open(url, options: [:], completionHandler: nil)
+             }
+             return true
+         }
+         responder = responder?.next
+     }
+     return false
+ }
   
   func completeRequest() {
     // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
