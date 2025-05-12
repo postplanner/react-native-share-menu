@@ -34,8 +34,6 @@ public class ShareMenuReactView: NSObject {
             return
         }
 
-        ShareMenuReactView.detachViewDelegate()
-
         if error != nil {
             let exception = NSError(
                 domain: Bundle.main.bundleIdentifier!,
@@ -47,6 +45,7 @@ public class ShareMenuReactView: NSObject {
         }
 
         extensionContext.completeRequest(returningItems: [], completionHandler: nil)
+        ShareMenuReactView.detachViewDelegate()
     }
 
     @objc
@@ -57,6 +56,7 @@ public class ShareMenuReactView: NSObject {
         }
 
         viewDelegate.openApp()
+        ShareMenuReactView.detachViewDelegate()
     }
 
     @objc(continueInApp:)
@@ -68,12 +68,13 @@ public class ShareMenuReactView: NSObject {
 
         let extensionContext = viewDelegate.loadExtensionContext()
 
-        guard let items = extensionContext.inputItems as? [NSExtensionItem] else {
+        guard let items = extensionContext?.inputItems as? [NSExtensionItem] else {
             print("Error: \(COULD_NOT_FIND_ITEMS_ERROR)")
             return
         }
 
         viewDelegate.continueInApp(with: items, and: extraData)
+        ShareMenuReactView.detachViewDelegate()
     }
 
     @objc(data:reject:)
