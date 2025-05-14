@@ -11,12 +11,14 @@ import RNShareMenu
 
 class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactShareViewDelegate {
   func sourceURL(for bridge: RCTBridge!) -> URL! {
-#if DEBUG
-    return RCTBundleURLProvider.sharedSettings()
-      .jsBundleURL(forBundleRoot: "index.share")
-#else
-    return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-#endif
+    #if DEBUG
+        return RCTBundleURLProvider.sharedSettings()
+          .jsBundleURL(forBundleRoot: "index.share")
+    #else
+        let url = Bundle.main.url(forResource: "index.share", withExtension: "jsbundle")
+        print("🔍 JS bundle URL in release mode: \(String(describing: url))")
+        return url
+    #endif
   }
 
   override func viewDidLoad() {
